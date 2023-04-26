@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>메모장</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <header>
+      <h1 class="main-title">나의 메모장</h1>
+      <img
+        class="main-cover"
+        src="img/memo.png"
+        alt="메모장에 무언가를 적고 있는 여자"
+      />
+      <!-- <img
+        class="main-cover"
+        src="img/main_banner.png"
+        alt="메모장에 무언가를 적고 있는 여자"
+      /> -->
+      <button type="button" class="add-note-btn">새 노트 추가하기</button>
+    </header>
+    <main>
+      <svg class="content-top-pattern" width="100%" height="100%">
+        <defs>
+          <pattern
+            id="pattern-triangle"
+            x="0"
+            y="0"
+            width="10"
+            height="11"
+            patternUnits="userSpaceOnUse"
+          >
+            <polygon points="5 5, 10 10, 10 11, 0 11, 0 10"></polygon>
+          </pattern>
+        </defs>
+        <rect
+          x="0"
+          y="0"
+          width="100%"
+          height="100%"
+          fill="url(#pattern-triangle)"
+        ></rect>
+      </svg>
+      <div class="wrapper">
+        <!-- 핀된 노트 -->
+        <section class="notes-section">
+          <h2>📌핀 노트</h2>
+          <p class="zeroPinnedMessage">아직 핀 된 노트가 없어요!😅</p>
+          <ul class="note-container">
+            <!-- 노트 예시 -->
+            <!-- <li class="note-item">
+              <article class="note">
+                <div class="note-top">
+                  <h3 class="note-title ellipsis">
+                    노트 제목노트 제목노트 제목노트 제목노트 제목노트 제목노트
+                    제목노트 제목노트 제목노트 제목노트 제목노트 제목
+                  </h3>
+                  <p class="note-content multi-ellipsis">노트 내용</p>
+                </div>
+                <footer class="note-footer">
+                  <button class="pin black" type="button">
+                    <i class="fa-solid fa-thumbtack"></i>
+                  </button>
+                  <button class="color-select" type="button">
+                    <i class="fa-solid fa-palette"></i>
+                  </button>
+                  <button class="delete" type="button">
+                    <i class="fa-solid fa-trash"></i>
+                  </button>
+                </footer>
+              </article>
+            </li> -->
+          </ul>
+        </section>
+        <!-- 노트 -->
+        <section class="notes-section">
+          <h2>📝노트</h2>
+          <p class="zeroNoteMessage">
+            아직 노트가 없어요! 노트를 추가해보세요!😁
+          </p>
+          <ul class="note-container">
+            <!-- <li class="note-item">
+              <article class="note">
+                <div class="note-top">
+                  <h3 class="note-title ellipsis">노트 제목</h3>
+                  <p class="note-content multi-ellipsis">
+                    노트 내용노트 내용노트 내용노트 내용노트 내용노트 내용노트
+                    내용노트 내용노트 내용노트 내용노트 내용노트 내용노트
+                    내용노트 내용노트 내용노트 내용노트 내용노트 내용노트
+                    내용노트 내용노트 내용노트 내용노트 내용노트 내용노트
+                    내용노트 내용노트 내용노트 내용노트 내용노트 내용노트
+                    내용노트 내용노트 내용노트 내용노트 내용노트 내용노트
+                    내용노트 내용노트 내용노트 내용노트 내용노트 내용노트
+                    내용노트 내용노트 내용노트 내용노트 내용노트 내용노트
+                    내용노트 내용노트 내용노트 내용노트 내용노트 내용노트
+                    내용노트 내용노트 내용노트 내용노트 내용
+                  </p>
+                </div>
+                <footer class="note-footer">
+                  <button class="pin" type="button">
+                    <i class="fa-solid fa-thumbtack"></i>
+                  </button>
+                  <button class="color-select" type="button">
+                    <i class="fa-solid fa-palette"></i>
+                  </button>
+                  <button class="delete" type="button">
+                    <i class="fa-solid fa-trash"></i>
+                  </button>
+                </footer>
+              </article>
+            </li> -->
+          </ul>
+        </section>
+      </div>
+    </main>
+    <footer class="main-footer">Crafted by 박지윤</footer>
+
+    <div class="modal-overlay hidden">
+      <section class="modal">
+        <input
+          type="text"
+          class="note-title-input"
+          placeholder="제목"
+          required
+        />
+        <textarea
+          name=""
+          class="note-content-input"
+          cols="30"
+          rows="10"
+          placeholder="내용"
+          required
+        ></textarea>
+        <footer class="modal-footer">
+          <div class="modal-footer-left">
+            <button class="pin" type="button">
+              <i class="fa-solid fa-thumbtack"></i>
+            </button>
+            <button class="color-select" type="button">
+              <input class="color-picker" type="color" />
+              <i class="fa-solid fa-palette"></i>
+            </button>
+            <button class="delete" type="button">
+              <i class="fa-solid fa-trash"></i>
+            </button>
+          </div>
+          <button class="modal-add" type="button">추가</button>
+        </footer>
+        <button class="modal-close" type="button">
+          <i class="fa-solid fa-x"></i>
+        </button>
+      </section>
+    </div>
+
+    <script src="./main.js"></script>
+  </body>
+</html>
