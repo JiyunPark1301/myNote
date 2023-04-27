@@ -31,38 +31,6 @@ let currentBgColor = '#fff';
 let isPinned = false;
 let currentId = null;
 let picked = null;
-let pickedIndex = null;
-const commands = [
-  {
-    cmd: 'backColor',
-    val: 'blue',
-    label: '배경 컬러',
-  },
-  {
-    cmd: 'bold',
-    label: '굵기',
-  },
-  {
-    cmd: 'justifyCenter',
-    label: '가운데 정렬',
-  },
-  {
-    cmd: 'justifyFull',
-    label: '양쪽 정렬',
-  },
-  {
-    cmd: 'justifyLeft',
-    label: '좌측 정렬',
-  },
-  {
-    cmd: 'justifyRight',
-    label: '우측 정렬',
-  },
-  {
-    cmd: 'underline',
-    label: '밑줄',
-  },
-];
 
 // ? 추가모드와 수정모드일 때 모달 UI 변경
 const changeUIInModal = () => {
@@ -403,45 +371,50 @@ noteLists.forEach((noteList) => {
     }
   });
 
-  // noteList.addEventListener('dragstart', (e) => {
-  //   const li = e.target.closest('.note-item');
-  //   if (!li) return;
-  //   picked = li;
-  // });
+  noteList.addEventListener('dragstart', (e) => {
+    const li = e.target.closest('.note-item');
+    if (!li) return;
+    picked = li;
+    setId(li.children[0].dataset.id);
+  });
+  noteList.addEventListener('dragend', (e) => {
+    const li = e.target.closest('.note-item');
+    if (!li) return;
+    picked = null;
+  });
   noteList.addEventListener('dragover', (e) => {
     e.preventDefault();
+    // console.log(picked.getBoundingClientRect().left);
   });
   noteList.addEventListener('drop', (e) => {
-    // if (noteList.children.length === 0) {
-    //   const noteContainer = e.target.closest('.note-container');
-    //   if (!noteContainer) return;
-    //   noteContainer.appendChild(picked);
-    //   return;
-    // }
     const li = e.target.closest('li');
+    console.log(li.getBoundingClientRect().left);
+
     if (e.target.closest('.note-container') && !li) {
       e.currentTarget.appendChild(picked);
-      return;
-    }
-    if (!li) return;
-    // const index = [...noteList.children].indexOf(li);
-    // if (index > pickedIndex) {
-    //   li.after(picked);
-    // } else {
-    //   li.before(picked);
-    // }
-    // console.log(li);
-    // console.log(li.offsetWidth);
-    // console.log(e.clientX);
-    // console.log(e.offsetX);
-    // const box = picked.getBoundingClientRect();
-    // const offset = x - box.left - box.width / 2;
-    // console.log(offset);
-    if (li.offsetWidth / 2 > e.offsetX) {
-      li.before(picked);
     } else {
-      li.after(picked);
+      if (!li) return;
+      if (li.getBoundingClientRect().left < e.clientX) {
+        li.before(picked);
+      } else {
+        li.after(picked);
+      }
     }
+
+    const index = notes.findIndex((note) => note.id === currentId);
+
+    if (notes[index].pinned && noteList === noteLists[1]) {
+      notes[index].pinned = false;
+      picked.querySelector('.pin').classList.remove('black');
+    } else if (!notes[index].pinned && noteList === noteLists[0]) {
+      notes[index].pinned = true;
+      picked.querySelector('.pin').classList.add('black');
+    }
+
+    notes = changeOrderOfNotes();
+    localStorage.setItem('notes', JSON.stringify(notes));
+
+    checkNumOfNotes();
   });
 });
 
@@ -458,18 +431,3 @@ const init = () => {
 };
 
 init();
-
-// noteLists[0].addEventListener('dragstart', (e) => {
-//   const li = e.target.closest('.note-item');
-//   if (!li) return;
-//   picked = li;
-// });
-// noteLists[0].addEventListener('dragover', (e) => {
-//   e.preventDefault();
-// });
-// noteLists[0].addEventListener('drop', (e) => {
-//   const li = e.target.closest('li');
-//   const noteList = li.closest('.note-container');
-//   if (!li || !noteList) return;
-//   li.after(picked);
-// });
